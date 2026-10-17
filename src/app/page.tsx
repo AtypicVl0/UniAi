@@ -6,9 +6,18 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 async function CourseList() {
-  const { data: courses } = await supabase
+  const { data: courses, error } = await supabase
     .from('courses')
     .select('*, topics(*)');
+
+  if (error) {
+    return (
+      <div className="bg-red-500/10 border border-red-500 text-red-400 p-4 rounded">
+        <p className="font-bold">Supabase Bağlantı Hatası:</p>
+        <p className="text-sm mt-1">{error.message}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="grid gap-6">
@@ -43,7 +52,7 @@ async function CourseList() {
           </div>
         ))
       ) : (
-        <p className="text-slate-400">Henuz veritabaninda ders bulunamadi.</p>
+        <p className="text-slate-400">Henuz veritabaninda ders bulunamadi (Dizi bos donuyor).</p>
       )}
     </div>
   );
