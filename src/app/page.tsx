@@ -1,5 +1,8 @@
 ﻿import { createClient } from '@supabase/supabase-js';
 
+// Next.js'e bu sayfanin her istekte dinamik derlenmesini soyluyoruz
+export const dynamic = 'force-dynamic';
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
