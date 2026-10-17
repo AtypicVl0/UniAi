@@ -1,13 +1,14 @@
 ﻿import { createClient } from '@supabase/supabase-js';
-
-// Next.js'e bu sayfanin her istekte dinamik derlenmesini soyluyoruz
-export const dynamic = 'force-dynamic';
+import { connection } from 'next/server';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default async function Home() {
+  // Next.js 15/16 cache bileşenleri ile tam uyum için
+  await connection();
+
   const { data: courses } = await supabase
     .from('courses')
     .select('*, topics(*)');
